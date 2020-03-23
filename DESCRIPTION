@@ -1,0 +1,17 @@
+Package: cenROC
+Type: Package
+Title: Estimation of Time-Dependent ROC Curve and AUC for Censored
+        Survival Data
+Version: 1.0.0
+Author: Kassu Mehari Beyene and Anouar El Ghouch
+Maintainer: Kassu Mehari Beyene <kasu.beyene@uclouvain.be>
+Description: Contains functions to estimate smoothed and non-smoothed (empirical)
+             time-dependent ROC curve and the corresponding area under the ROC   
+             curve (AUC) for the right censored survival data.
+Depends: R(>= 3.6.0), condSURV
+License: GPL(>=2)
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.0.2
+NeedsCompilation: no
+Packaged: 2020-03-04 10:38:07 UTC; kbeyene
