@@ -7,11 +7,12 @@ curve (AUC) for the right censored survival data using the method descibed [here
 
 ## Installation
 
-You can install My1Pck with:
+You can install cenROC with:
 
 ``` r
 devtools::install_github("elghouch/cenROC")
 ```
+The source code is provided above.
 
 ## Usage, examples and details
 
