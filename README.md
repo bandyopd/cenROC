@@ -15,4 +15,4 @@ devtools::install_github("elghouch/cenROC")
 
 ## Usage, examples and details
 
-See [this document]().
+See [this document](enROC.pdf).
