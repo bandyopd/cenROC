@@ -17,15 +17,10 @@ NR(X, wt, ktype = "normal")
 Returns the computed value for the bandwith parameter.
 }
 \description{
-This function computes the data-driven bandwidth for smoothing the ROC (or distribution) function. It is an extension of the classical (unweighted) normal reference bandwith selection method for the case of weighted data.
- If all the weights are equal, then the value is the same as the one obtained using the classical normal reference method.
+This function computes the data-driven bandwidth for smoothing the ROC (or distribution) function using the NR method of Beyene and El Ghouch (2019). This is an extension of the classical (unweighted) normal reference bandwith selection method to the case of weighted data.
 }
 \details{
-This mehod is derived from the asymptotic mean square error of the time-dependent smoothed ROC function.
-It require estimating the unknown quantity \eqn{\kappa (ROC)=\int_{-\infty}^{\infty} \left\{ ROC^{''}(u) \right\} ^2 du}, where \eqn{ROC^{''}(.)} is the second derivative of the ROC function.
-To estimate this it is asumed that the random variable follows a normal distribution and the weighted nature is accounted in the estimation of the unknown
-parameters of the assumed normal distribution.
-For smoothing the ROC function the following kernel can be considered: "\code{normal}", "\code{epanechnikov}", "\code{biweight}", or "\code{triweight}".
+See Beyene and El Ghouch (2019) for details.
 }
 \examples{
 library(cenROC)
@@ -34,12 +29,11 @@ X <- rnorm(100) # random data vector
 wt <- runif(100) # weight vector
 
 ## Normal reference bandwidth selection
-bandNR <- NR(X = X, wt = wt)
+NR(X = X, wt = wt)$bw
 
-bandNR$bw
 }
 \references{
-Beyene, K. M. and El Ghouch A. (2020). Smoothed time-dependent ROC curves for right-censored survival data.
+Beyene, K. M. and El Ghouch A. (2019). Smoothed time-dependent ROC curves for right-censored survival data. <\url{https://dial.uclouvain.be/pr/boreal/object/boreal:219643}>.
 }
 \author{
 Kassu Mehari Beyene, Catholic University of Louvain. \code{<kasu.beyene@uclouvain.be>}

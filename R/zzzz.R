@@ -36,7 +36,7 @@ wquantile <- function(X, wt, p = 0.5)
   cusumw <- cumsum(wt[ord])
   sumW <- sum(wt)
   plist <- cusumw / sumW
-  qua <- approx(plist, X, p)$y
+  qua <- withCallingHandlers(approx(plist, X, p)$y, warning=function(w){invokeRestart("muffleWarning")})
 
   return(qua)
 }
@@ -82,7 +82,7 @@ integ <- function(x, fx, method, n.pts = 256) {
     }
     if (length(x) != length(fx))
     {
-      stop('The lengths of the variable of integration and the integrand do not match.')
+      stop("The lengths of the variable of integration and the integrand do not match.")
     }
     # integrate using the trapezoidal rule
     integral <- 0.5 * sum((x[2:(n)] - x[1:(n - 1)]) * (fx[1:(n - 1)] + fx[2:n]))
@@ -252,7 +252,7 @@ kfunc <- function(ktype = "normal", difmat)
 #' @param method is the method of ROC curve estimation. The possible options are \code{emp} emperical metod; \code{untra} smooth without boundary correction and \code{tra} is smooth ROC curve estimation with boundary correction.
 #' @param ktype A character string giving the type kernel to be used: "\code{normal}", "\code{epanechnikov}", "\code{biweight}", or "\code{triweight}".
 #' @author Beyene K. Mehari and El Ghouch Anouar
-#' @references Beyene, K. M. and El Ghouch A. (2020). Smoothed time-dependent ROC Curves for right-censored survival data.
+#' @references Beyene, K. M. and El Ghouch A. (2019). Smoothed time-dependent ROC curves for right-censored survival data. <\url{https://dial.uclouvain.be/pr/boreal/object/boreal:219643}>.
 #' @keywords internal
 
 RocFun <- function(U, D, M, bw = "NR", method, ktype) {
@@ -295,7 +295,7 @@ RocFun <- function(U, D, M, bw = "NR", method, ktype) {
     roc <- apply(roc1, 1, sum)
   }
   else{
-    print("Please check the method option!")
+   stop("The specified method is not correct.")
   }
   return(list(roc = roc, auc = AUC, bw = bw1))
 }
@@ -312,7 +312,7 @@ RocFun <- function(U, D, M, bw = "NR", method, ktype) {
 #' @return Return a vectors:
 #' @return \code{positive    }    \code{P(T<t|Y,censor,M)}.
 #' @return \code{negative    }     \code{P(T>t|Y,censor,M)}.
-#' @references Beyene, K. M. and El Ghouch, A. (2020). Smoothed time-dependent ROC curve for right censored survival data.
+#' @references Beyene, K. M. and El Ghouch A. (2019). Smoothed time-dependent ROC curves for right-censored survival data. <\url{https://dial.uclouvain.be/pr/boreal/object/boreal:219643}>.
 #' @references Li, Liang, Bo Hu and Tom Greene (2018).  A simple method to estimate the time-dependent receiver operating characteristic curve and the area under the curve with right censored data, Statistical Methods in Medical Research, 27(8): 2264-2278.
 #' @references Pablo Martínez-Camblor and Gustavo F. Bayón and Sonia Pérez-Fernández (2016). Cumulative/dynamic roc curve estimation, Journal of Statistical Computation and Simulation, 86(17): 3582-3594.
 #' @keywords internal

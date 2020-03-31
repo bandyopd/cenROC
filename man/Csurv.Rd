@@ -30,7 +30,7 @@ Return a vectors:
 Survival probability conditional to the observed data estimation for right censored data.
 }
 \references{
-Beyene, K. M. and El Ghouch, A. (2020). Smoothed time-dependent ROC curve for right censored survival data.
+Beyene, K. M. and El Ghouch A. (2019). Smoothed time-dependent ROC curves for right-censored survival data. <\url{https://dial.uclouvain.be/pr/boreal/object/boreal:219643}>.
 
 Li, Liang, Bo Hu and Tom Greene (2018).  A simple method to estimate the time-dependent receiver operating characteristic curve and the area under the curve with right censored data, Statistical Methods in Medical Research, 27(8): 2264-2278.
 

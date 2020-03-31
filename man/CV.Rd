@@ -4,7 +4,7 @@
 \alias{CV}
 \title{The cross-validation bandwidth selection for weighted data}
 \usage{
-CV(X, wt, ktype = "normal", n_pts = 100, seq_bws = NULL)
+CV(X, wt, ktype = "normal")
 }
 \arguments{
 \item{X}{The numeric data vector.}
@@ -12,35 +12,30 @@ CV(X, wt, ktype = "normal", n_pts = 100, seq_bws = NULL)
 \item{wt}{The non-negative weight vector.}
 
 \item{ktype}{A character string giving the type kernel to be used: "\code{normal}", "\code{epanechnikov}", "\code{biweight}", or "\code{triweight}". By default, the "\code{normal}" kernel is used.}
-
-\item{n_pts}{The number of points to be used in the integration. The default is \code{100}.}
-
-\item{seq_bws}{The sequence of bandwidths in which to compute the cross-validation function.}
 }
 \value{
 Returns the computed value for the bandwith parameter.
 }
 \description{
-This function computes the data-driven bandwidth for smoothing the ROC (or distribution) function. It is an extension of the classical (unweighted) cross-validation bandwith selection method for the case of weighted data.
- If all the weights are equal, then the value is the same as the one obtained using the classical cross-validation method proposed by Bowman et al (1998).
+This function computes the data-driven bandwidth for smoothing the ROC (or distribution) function using the CV method of Beyene and El Ghouch (2019). This is an extension of the classical (unweighted) cross-validation bandwith selection method to the case of weighted data.
 }
 \details{
-This code has been adapted from Quintela-del-Rio and Estevez-Perez (2015). Bowman et al (1998) proposed the cross-validation bandwidth selection method for unweighted kernal smoothed distribution function and it is implemented in the \code{R} package \code{kerdiest}.
-We adapted this for the case of weighted data by incorporating the weight variable into the cross-validation function of Bowman's method.
+Bowman et al (1998) proposed the cross-validation bandwidth selection method for unweighted kernal smoothed distribution function. This method is implemented in the \code{R} package \code{kerdiest}.
+We adapted this for the case of weighted data by incorporating the weight variable into the cross-validation function of Bowman's method. See Beyene and El Ghouch (2019) for details.
 }
 \examples{
-library(cenROC)
+\donttest{library(cenROC)
 
-#X <- rnorm(100) # random data vector
-#wt <- runif(100) # weight vector
+X <- rnorm(100) # random data vector
+wt <- runif(100) # weight vector
 
 ## Cross-validation bandwidth selection
-#bandCV <- CV(X = X, wt = wt)
+CV(X = X, wt = wt)$bw
 
-#bandCV$bw
+}
 }
 \references{
-Beyene, K. M. and El Ghouch A. (2020). Smoothed time-dependent ROC curves for right-censored survival data.
+Beyene, K. M. and El Ghouch A. (2019). Smoothed time-dependent ROC curves for right-censored survival data. <\url{https://dial.uclouvain.be/pr/boreal/object/boreal:219643}>.
 
 Bowman A., Hall P. and Trvan T.(1998). Bandwidth selection for the smoothing of distribution functions. \emph{Biometrika} 85:799-808.
 

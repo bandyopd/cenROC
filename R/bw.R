@@ -1,31 +1,25 @@
 #' The normal reference bandwidth selection for weighted data
 #'
-#' @description This function computes the data-driven bandwidth for smoothing the ROC (or distribution) function. It is an extension of the classical (unweighted) normal reference bandwith selection method for the case of weighted data.
-#'  If all the weights are equal, then the value is the same as the one obtained using the classical normal reference method.
+#' @description This function computes the data-driven bandwidth for smoothing the ROC (or distribution) function using the NR method of Beyene and El Ghouch (2019). This is an extension of the classical (unweighted) normal reference bandwith selection method to the case of weighted data.
 #'
 #' @param X The numeric data vector.
 #' @param wt The non-negative weight vector.
 #' @param ktype A character string giving the type kernel to be used: "\code{normal}", "\code{epanechnikov}", "\code{biweight}", or "\code{triweight}". By default, the "\code{normal}" kernel is used.
 #' @return Returns the computed value for the bandwith parameter.
-#' @details This mehod is derived from the asymptotic mean square error of the time-dependent smoothed ROC function.
-#' It require estimating the unknown quantity \eqn{\kappa (ROC)=\int_{-\infty}^{\infty} \left\{ ROC^{''}(u) \right\} ^2 du}, where \eqn{ROC^{''}(.)} is the second derivative of the ROC function.
-#' To estimate this it is asumed that the random variable follows a normal distribution and the weighted nature is accounted in the estimation of the unknown
-#' parameters of the assumed normal distribution.
-#' For smoothing the ROC function the following kernel can be considered: "\code{normal}", "\code{epanechnikov}", "\code{biweight}", or "\code{triweight}".
+#' @details See Beyene and El Ghouch (2019) for details.
 #' @author
 #' Kassu Mehari Beyene, Catholic University of Louvain. \code{<kasu.beyene@uclouvain.be>}
 #'
 #' Anouar El Ghouch, Catholic University of Louvain. \code{<anouar.elghouch@uclouvain.be>}
-#' @references Beyene, K. M. and El Ghouch A. (2020). Smoothed time-dependent ROC curves for right-censored survival data.
+#' @references Beyene, K. M. and El Ghouch A. (2019). Smoothed time-dependent ROC curves for right-censored survival data. <\url{https://dial.uclouvain.be/pr/boreal/object/boreal:219643}>.
 #' @examples library(cenROC)
 #'
 #' X <- rnorm(100) # random data vector
 #' wt <- runif(100) # weight vector
 #'
 #' ## Normal reference bandwidth selection
-#' bandNR <- NR(X = X, wt = wt)
+#' NR(X = X, wt = wt)$bw
 #'
-#' bandNR$bw
 #' @export
 
 NR <- function (X, wt, ktype="normal") {
@@ -43,32 +37,26 @@ NR <- function (X, wt, ktype="normal") {
 
 #' The plug-in bandwidth selection for weighted data
 #'
-#' @description This function computes the data-driven bandwidth for smoothing the ROC (or distribution) function. It is an extension of the classical (unweighted) direct plug-in bandwith selection method for the case of weighted data.
-#'  If all the weights are equal, then the value is the same as the one obtained using the classical plug-in method.
+#' @description This function computes the data-driven bandwidth for smoothing the ROC (or distribution) function using the PI method of Beyene and El Ghouch (2019). This is an extension of the classical (unweighted) direct plug-in bandwith selection method to the case of weighted data.
 #'
 #' @param X The numeric vector of random variable.
 #' @param wt The non-negative weight vector.
 #' @param ktype A character string giving the type kernel to be used: "\code{normal}", "\code{epanechnikov}", "\code{biweight}", or "\code{triweight}". By default, the "\code{normal}" kernel is used.
 #' @return Returns the computed value for the bandwith parameter.
-#' @details This mehod is derived from the asymptotic mean square error of the time-dependent smoothed ROC function.
-#' It is the modified version of the plug-in bandwidth selection method for the kernel smoothed distribution function estimation.
-#' The quantity \eqn{\kappa (ROC)=\int_{-\infty}^{\infty} \left\{ ROC^{''}(u) \right\} ^2 du}, where \eqn{ROC^{''}(.)} is the second derivative of the ROC function,
-#' is estimated nonparametriclly using the relation \eqn{\kappa(ROC)= - E\left\{ \mathcal{W} ROC^{(3)}(Z)  \right\}}, where \eqn{ROC^{(3)}(.)} is the third derivative of the ROC function .
-#' For the pilot bandwidth needed for estimating the quantity \eqn{E\left\{ \mathcal{W} ROC^{(3)}(Z)  \right\}}, the normal reference method is used.
+#' @details See Beyene and El Ghouch (2019) for details.
 #' @author
 #' Kassu Mehari Beyene, Catholic University of Louvain. \code{<kasu.beyene@uclouvain.be>}
 #'
 #' Anouar El Ghouch, Catholic University of Louvain. \code{<anouar.elghouch@uclouvain.be>}
-#' @references Beyene, K. M. and El Ghouch A. (2020). Smoothed time-dependent ROC curves for right-censored survival data.
+#' @references Beyene, K. M. and El Ghouch A. (2019). Smoothed time-dependent ROC curves for right-censored survival data. <\url{https://dial.uclouvain.be/pr/boreal/object/boreal:219643}>.
 #' @examples library(cenROC)
 #'
 #' X <- rnorm(100) # random data vector
 #' wt <- runif(100) # weight vector
 #'
 #' ## Plug-in bandwidth selection
-#' bandPI <- PI(X = X, wt = wt)
+#' PI(X = X, wt = wt)$bw
 #'
-#' bandPI$bw
 #' @export
 
 PI <- function(X, wt, ktype="normal")
@@ -109,44 +97,41 @@ PI <- function(X, wt, ktype="normal")
 
 #' The cross-validation bandwidth selection for weighted data
 #'
-#' @description This function computes the data-driven bandwidth for smoothing the ROC (or distribution) function. It is an extension of the classical (unweighted) cross-validation bandwith selection method for the case of weighted data.
-#'  If all the weights are equal, then the value is the same as the one obtained using the classical cross-validation method proposed by Bowman et al (1998).
+#' @description This function computes the data-driven bandwidth for smoothing the ROC (or distribution) function using the CV method of Beyene and El Ghouch (2019). This is an extension of the classical (unweighted) cross-validation bandwith selection method to the case of weighted data.
 #'
 #' @param X The numeric data vector.
 #' @param wt The non-negative weight vector.
 #' @param ktype A character string giving the type kernel to be used: "\code{normal}", "\code{epanechnikov}", "\code{biweight}", or "\code{triweight}". By default, the "\code{normal}" kernel is used.
-#' @param seq_bws The sequence of bandwidths in which to compute the cross-validation function.
-#' @param n_pts The number of points to be used in the integration. The default is \code{100}.
 #' @return Returns the computed value for the bandwith parameter.
-#' @details This code has been adapted from Quintela-del-Rio and Estevez-Perez (2015). Bowman et al (1998) proposed the cross-validation bandwidth selection method for unweighted kernal smoothed distribution function and it is implemented in the \code{R} package \code{kerdiest}.
-#' We adapted this for the case of weighted data by incorporating the weight variable into the cross-validation function of Bowman's method.
+#' @details Bowman et al (1998) proposed the cross-validation bandwidth selection method for unweighted kernal smoothed distribution function. This method is implemented in the \code{R} package \code{kerdiest}.
+#' We adapted this for the case of weighted data by incorporating the weight variable into the cross-validation function of Bowman's method. See Beyene and El Ghouch (2019) for details.
 #'
 #' @author
 #' Kassu Mehari Beyene, Catholic University of Louvain. \code{<kasu.beyene@uclouvain.be>}
 #'
 #' Anouar El Ghouch, Catholic University of Louvain. \code{<anouar.elghouch@uclouvain.be>}
-#' @references Beyene, K. M. and El Ghouch A. (2020). Smoothed time-dependent ROC curves for right-censored survival data.
+#' @references Beyene, K. M. and El Ghouch A. (2019). Smoothed time-dependent ROC curves for right-censored survival data. <\url{https://dial.uclouvain.be/pr/boreal/object/boreal:219643}>.
 #' @references Bowman A., Hall P. and Trvan T.(1998). Bandwidth selection for the smoothing of distribution functions. \emph{Biometrika} 85:799-808.
 #' @references Quintela-del-Rio, A. and Estevez-Perez, G. (2015). \code{kerdiest:} Nonparametric kernel estimation of the distribution function, bandwidth selection and estimation of related functions. \code{R} package version 1.2.
-#' @examples library(cenROC)
+#' @examples
+#' \donttest{library(cenROC)
 #'
-#' #X <- rnorm(100) # random data vector
-#' #wt <- runif(100) # weight vector
+#' X <- rnorm(100) # random data vector
+#' wt <- runif(100) # weight vector
 #'
 #' ## Cross-validation bandwidth selection
-#' #bandCV <- CV(X = X, wt = wt)
+#' CV(X = X, wt = wt)$bw
 #'
-#' #bandCV$bw
+#' }
 #' @export
 
-CV <- function(X, wt, ktype = "normal", n_pts = 100, seq_bws = NULL)
+CV <- function(X, wt, ktype = "normal")
 {
   mul <- length(wt) / sum(wt)
   prob_quantile <- 0
   ss <- quantile(X, c(prob_quantile, 1 - prob_quantile))
-  y <- seq(ss[1], ss[2], length.out = n_pts)
-  if (is.null(seq_bws))
-    seq_bws = seq((max(X) - min(X)) / 200, (max(X) - min(X)) / 2, length.out = 50)
+  y <- seq(ss[1], ss[2], length.out = 100)
+  seq_bws = seq((max(X) - min(X)) / 200, (max(X) - min(X)) / 2, length.out = 50)
   n_bws <- length(seq_bws)
   CVfunction <- numeric(length = n_bws)
   for (i in 1:n_bws)
@@ -170,28 +155,26 @@ CV <- function(X, wt, ktype = "normal", n_pts = 100, seq_bws = NULL)
 #' @param wt The non-negative weight vector.
 #' @param bw A character string specifying the bandwidth selection method. The possible options are "\code{NR}" for the normal reference, the plug-in "\code{PI}" and cross-validation "\code{CV}".
 #' @param ktype A character string indicating the type of kernel function: "\code{normal}", "\code{epanechnikov}", "\code{biweight}", or "\code{triweight}". Default is "\code{normal}" kernel.
-#' @param seq_bws The sequence of bandwidths in which to compute the cross-validation function. The default values are sequence of 50 points between the range of the data divided by 200 and the range divided by 2.
-#' @param n_pts The number of points to be used in the integration. The default is \code{100}.
 #' @return Returns the estimated value for the bandwith parameter.
 #' @author
 #' Kassu Mehari Beyene, Catholic University of Louvain. \code{<kasu.beyene@uclouvain.be>}
 #'
 #' Anouar El Ghouch, Catholic University of Louvain. \code{<anouar.elghouch@uclouvain.be>}
-#' @references Beyene, K. M. and El Ghouch A. (2020). Smoothed time-dependent ROC curves for right-censored survival data.
+#' @references Beyene, K. M. and El Ghouch A. (2019). Smoothed time-dependent ROC curves for right-censored survival data. <\url{https://dial.uclouvain.be/pr/boreal/object/boreal:219643}>.
 #' @keywords internal
 
-wbw <- function(X, wt, bw = "NR", ktype = "normal", n_pts = 100, seq_bws = NULL)
+wbw <- function(X, wt, bw = "NR", ktype = "normal")
 {
   if (is.numeric(bw)) {
     bwv <- bw
   } else if (bw == "CV") {
-    bwv <- CV(X = X, wt = wt, ktype = ktype, n_pts = n_pts, seq_bws = seq_bws)$bw
+    bwv <- CV(X = X, wt = wt, ktype = ktype)$bw
   } else if (bw == "NR") {
     bwv <- NR(X = X, wt = wt, ktype = ktype)$bw
   } else if (bw == "PI") {
     bwv <- PI(X = X, wt = wt, ktype = ktype)$bw
   } else{
-    print("Please check your bandwidth options")
+    stop("Please check your bandwidth options")
   }
   return(list(bw = bwv))
 }

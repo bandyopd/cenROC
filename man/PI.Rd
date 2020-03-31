@@ -17,15 +17,10 @@ PI(X, wt, ktype = "normal")
 Returns the computed value for the bandwith parameter.
 }
 \description{
-This function computes the data-driven bandwidth for smoothing the ROC (or distribution) function. It is an extension of the classical (unweighted) direct plug-in bandwith selection method for the case of weighted data.
- If all the weights are equal, then the value is the same as the one obtained using the classical plug-in method.
+This function computes the data-driven bandwidth for smoothing the ROC (or distribution) function using the PI method of Beyene and El Ghouch (2019). This is an extension of the classical (unweighted) direct plug-in bandwith selection method to the case of weighted data.
 }
 \details{
-This mehod is derived from the asymptotic mean square error of the time-dependent smoothed ROC function.
-It is the modified version of the plug-in bandwidth selection method for the kernel smoothed distribution function estimation.
-The quantity \eqn{\kappa (ROC)=\int_{-\infty}^{\infty} \left\{ ROC^{''}(u) \right\} ^2 du}, where \eqn{ROC^{''}(.)} is the second derivative of the ROC function,
-is estimated nonparametriclly using the relation \eqn{\kappa(ROC)= - E\left\{ \mathcal{W} ROC^{(3)}(Z)  \right\}}, where \eqn{ROC^{(3)}(.)} is the third derivative of the ROC function .
-For the pilot bandwidth needed for estimating the quantity \eqn{E\left\{ \mathcal{W} ROC^{(3)}(Z)  \right\}}, the normal reference method is used.
+See Beyene and El Ghouch (2019) for details.
 }
 \examples{
 library(cenROC)
@@ -34,12 +29,11 @@ X <- rnorm(100) # random data vector
 wt <- runif(100) # weight vector
 
 ## Plug-in bandwidth selection
-bandPI <- PI(X = X, wt = wt)
+PI(X = X, wt = wt)$bw
 
-bandPI$bw
 }
 \references{
-Beyene, K. M. and El Ghouch A. (2020). Smoothed time-dependent ROC curves for right-censored survival data.
+Beyene, K. M. and El Ghouch A. (2019). Smoothed time-dependent ROC curves for right-censored survival data. <\url{https://dial.uclouvain.be/pr/boreal/object/boreal:219643}>.
 }
 \author{
 Kassu Mehari Beyene, Catholic University of Louvain. \code{<kasu.beyene@uclouvain.be>}

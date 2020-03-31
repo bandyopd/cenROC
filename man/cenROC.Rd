@@ -2,10 +2,10 @@
 % Please edit documentation in R/cenROC.R
 \name{cenROC}
 \alias{cenROC}
-\title{Estimation of time-dependent ROC curve for right censored survival data}
+\title{Estimation of the time-dependent ROC curve for right censored survival data}
 \usage{
-cenROC(Y, M, censor, t, U = NULL, h = NULL, bw = "NR", len = 151, method = "tra",
-    ktype = "normal", ktype1 = "normal", plot = TRUE)
+cenROC(Y, M, censor, t, U = NULL, h = NULL, bw = "NR", method = "tra",
+    ktype = "normal", ktype1 = "normal", B = 0, alpha = 0.05, plot = TRUE)
 }
 \arguments{
 \item{Y}{The numeric vector of event-times or observed times.}
@@ -14,15 +14,13 @@ cenROC(Y, M, censor, t, U = NULL, h = NULL, bw = "NR", len = 151, method = "tra"
 
 \item{censor}{The censoring indicator, \code{1} if event, \code{0} otherwise.}
 
-\item{t}{A scaler time point at which we want to compute the time-dependent ROC curve.}
+\item{t}{A scaler time point at which the time-dependent ROC curve is computed.}
 
 \item{U}{The vector of grid points where the ROC curve is estimated. The default is a sequence of \code{151} numbers between \code{0} and \code{1}.}
 
-\item{h}{A scaler for the bandwidth of Beran's weight calculaions. The defualt is using the method of Sheather and Jones (1991).}
+\item{h}{A scaler for the bandwidth of Beran's weight calculaions. The defualt is the value obtained by using the method of Sheather and Jones (1991).}
 
-\item{bw}{A character string specifying the bandwidth estimation method. The possible options are "\code{NR}" for the normal reference, the plug-in "\code{PI}" and the cross-validation "\code{CV}". The default is the "\code{NR}" normal reference method. It is also possible to use a numeric value.}
-
-\item{len}{The length of the grid points. The default is \code{151}.}
+\item{bw}{A character string specifying the bandwidth estimation method for the ROC itself. The possible options are "\code{NR}" for the normal reference, the plug-in "\code{PI}" and the cross-validation "\code{CV}". The default is the "\code{NR}" normal reference method. The user can also introduce a numerical value.}
 
 \item{method}{The method of ROC curve estimation. The possible options are "\code{emp}" emperical metod; "\code{untra}" smooth without boundary correction and "\code{tra}" is smooth ROC curve estimation with boundary correction. The default is the "\code{tra}" smooth ROC curve estimate with boundary correction.}
 
@@ -30,47 +28,47 @@ cenROC(Y, M, censor, t, U = NULL, h = NULL, bw = "NR", len = 151, method = "tra"
 
 \item{ktype1}{A character string specifying the desired kernel needed for Beran weight calculation. The possible options are "\code{normal}", "\code{epanechnikov}", "\code{tricube}", "\code{boxcar}", "\code{triangular}", or "\code{quartic}". The defaults is "\code{normal}" kernel density.}
 
+\item{B}{The number of bootstrap samples to be used for variance estimation. The default is \code{0}, no variance estimation.}
+
+\item{alpha}{The significance level. The default is \code{0.05}.}
+
 \item{plot}{The logical parameter to see the ROC curve plot. The default is \code{TRUE}.}
 }
 \value{
 Returns the following items:
 
-\code{ROC      } The vector of estimated ROC values. These will be numeric numbers between \code{0} and \code{1}.
+\code{ROC      } The vector of the estimated ROC at U for the given \code{t}. These will be numeric numbers between
+
+\code{         }  \code{       0} and \code{1}.
 
 \code{U        } The vector of grid points used.
 
-\code{AUC      } The estimated area under the ROC curve at a given \code{t} using direct method.
+\code{AUC      } A data frame of dimension \eqn{1 \times 4}. The columns are: AUC, standard error of AUC, the lower
 
-\code{AUC1     } The estimated area under the ROC curve at a given \code{t} using numerical integration method.
+\code{         }               and upper limits of bootstrap CI.
 
 \code{bw       } The computed value of bandwidth. For the empirical method this is always \code{1}.
 }
 \description{
-This function computes the time-dependent ROC curve for the right censored survival data using the cumulative sensitivity and dynamic specificity definitions.
+This function computes the time-dependent ROC curve (receiver operating characteristic curve) for right censored survival data using the cumulative sensitivity and dynamic specificity definitions.
  The ROC curves can be either empirical (non-smoothed) or smoothed with/wtihout boundary correction. It also calculates the time-dependent area under the ROC curve (AUC).
 }
 \details{
 The empirical (non-smoothed) ROC estimate and the smoothed ROC estimate with/without boundary correction can be obtained using this function.
 The smoothed ROC curve estimators require selecting two bandwidth parametrs: one for Beran’s weight calculation and one for smoothing the ROC curve.
 For the latter, three data-driven methods: the normal reference "\code{NR}", the plug-in "\code{PI}" and the cross-validation "\code{CV}" were implemented.
-To select the bandwidth parameter needed for Beran’s weight calculation, by default, the plug-in method of Sheather and Jones (1991) is used but it is also possible to use numeric value.
-The time-dependent AUC can be computed either using the direct method (i.e. \eqn{\widehat{AUC}_{t}=1-{n^{-1}\sum_{i=1}^n\hat{\mathcal{W}}_i\hat{Z}_{i}}}) or using the numerical integration (i.e. \eqn{\widehat{AUC}_{t}=\int_{0}^1\widehat{ROC}_{t}(u)du}).
-The details about these methods can be found in the paper of Beyene and El Ghouch (2020).
+To select the bandwidth parameter needed for Beran’s weight calculation, by default, the plug-in method of Sheather and Jones (1991) is used but it is also possible introduce a numeric value.
+See Beyene and El Ghouch (2019) for details.
 }
 \examples{
 library(cenROC)
 
 data(mayo)
-data <- mayo[ ,c( "time","censor","mayoscore5" )]
-t <- 365*6
+cenROC(Y=mayo$time, M=mayo$mayoscore5, censor=mayo$censor, t=365*6)$AUC
 
-resu <- cenROC(Y=data$time, M=data$mayoscore5, censor=data$censor, t=t, U=NULL,
-         len=151, bw="PI", method="tra", plot=TRUE)
-
- resu$AUC
 }
 \references{
-Beyene, K. M. and El Ghouch A. (2020). Smoothed time-dependent ROC curves for right-censored survival data.
+Beyene, K. M. and El Ghouch A. (2019). Smoothed time-dependent ROC curves for right-censored survival data.<\url{https://dial.uclouvain.be/pr/boreal/object/boreal:219643}>.
 
 Sheather, S. J. and Jones, M. C. (1991). A Reliable data-based bandwidth selection method for kernel density estimation. \emph{Journal of the Royal Statistical Society}. Series B (Methodological) 53(3): 683–690.
 }
